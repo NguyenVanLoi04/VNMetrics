@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Antigravity AI Team" }],
   creator: "Antigravity AI Team",
   publisher: "VNMetrics",
-  metadataBase: new URL("https://vnmetrics.vercel.app"),
+  metadataBase: new URL("https://vn-metrics.vercel.app"),
   alternates: {
     canonical: "/",
     languages: {
@@ -63,13 +63,13 @@ export const metadata: Metadata = {
     title: "VNMetrics - Bảng Điều Khiển Dữ Liệu Mở Việt Nam",
     description:
       "Bản đồ tương tác và biểu đồ thống kê Kinh Tế, Nông Nghiệp, Môi Trường & Dân Số Việt Nam theo thời gian thực.",
-    url: "https://vnmetrics.vercel.app",
+    url: "https://vn-metrics.vercel.app",
     siteName: "VNMetrics",
     locale: "vi_VN",
     type: "website",
     images: [
       {
-        url: "/og-banner.png",
+        url: "https://vn-metrics.vercel.app/og-banner.png",
         width: 1200,
         height: 630,
         alt: "VNMetrics Open Data Vietnam Social Preview Banner",
@@ -81,7 +81,7 @@ export const metadata: Metadata = {
     title: "VNMetrics - Open Data Vietnam Dashboard",
     description:
       "Trực quan hóa dữ liệu kinh tế, nông sản, môi trường & xã hội Việt Nam với bản đồ tương tác.",
-    images: ["/og-banner.png"],
+    images: ["https://vn-metrics.vercel.app/og-banner.png"],
   },
   robots: {
     index: true,
@@ -106,9 +106,9 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "VNMetrics",
-    url: "https://vnmetrics.vercel.app",
-    image: "https://vnmetrics.vercel.app/og-banner.png",
-    logo: "https://vnmetrics.vercel.app/logo.png",
+    url: "https://vn-metrics.vercel.app",
+    image: "https://vn-metrics.vercel.app/og-banner.png",
+    logo: "https://vn-metrics.vercel.app/logo.png",
     description:
       "Trực quan hóa dữ liệu công khai Việt Nam: GDP, Nông sản xuất khẩu chủ lực, Dân số, Chất lượng không khí (AQI), Năng lượng & Internet.",
     applicationCategory: "BusinessApplication",
@@ -116,7 +116,7 @@ export default function RootLayout({
     author: {
       "@type": "Organization",
       name: "Antigravity AI Team",
-      logo: "https://vnmetrics.vercel.app/logo.png",
+      logo: "https://vn-metrics.vercel.app/logo.png",
     },
     hasPart: [
       {
