@@ -48,8 +48,8 @@ export const metadata: Metadata = {
     shortcut: "/logo.png",
     apple: "/logo.png",
   },
-  authors: [{ name: "Antigravity AI Team" }],
-  creator: "Antigravity AI Team",
+  authors: [{ name: "NguyenVanLoi", url: "https://github.com/NguyenVanLoi04" }],
+  creator: "NguyenVanLoi",
   publisher: "VNMetrics",
   metadataBase: new URL("https://vn-metrics.vercel.app"),
   alternates: {
@@ -114,9 +114,9 @@ export default function RootLayout({
     applicationCategory: "BusinessApplication",
     operatingSystem: "All",
     author: {
-      "@type": "Organization",
-      name: "Antigravity AI Team",
-      logo: "https://vn-metrics.vercel.app/logo.png",
+      "@type": "Person",
+      name: "NguyenVanLoi",
+      url: "https://github.com/NguyenVanLoi04",
     },
     hasPart: [
       {

@@ -79,7 +79,15 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Footer
     'footer.datasource': 'Nguồn Dữ Liệu: World Bank Open Data v2 & WAQI / OpenAQ',
-    'footer.credit': 'Phát triển bởi Antigravity AI Team — 2026',
+    'footer.credit': 'Phát triển bởi NguyenVanLoi — 2026',
+    'footer.notesTitle': 'Chú Thích & Nguồn Dữ Liệu',
+    'footer.noteWbTitle': 'Dữ Liệu Vĩ Mô & Kinh Tế',
+    'footer.noteWbDesc': 'Các chỉ số GDP, Dân số, Tuổi thọ và Thương mại được truy xuất trực tiếp từ World Bank Open Data API v2.',
+    'footer.noteAqiTitle': 'Chất Lượng Không Khí (AQI)',
+    'footer.noteAqiDesc': 'Chỉ số không khí & hạt bụi PM2.5 cập nhật theo thời gian thực từ trạm quan trắc công khai WAQI / OpenAQ.',
+    'footer.noteMapTitle': 'Bản Đồ Địa Lý',
+    'footer.noteMapDesc': 'Bản đồ ranh giới 63 tỉnh thành Việt Nam được chuẩn hóa từ dữ liệu địa lý GeoJSON.',
+    'footer.disclaimer': 'Ghi chú: Toàn bộ dữ liệu trên bảng điều khiển được truy xuất tự động từ các public Open API phục vụ mục đích tham khảo & phát triển cộng đồng.',
   },
   en: {
     // Header
@@ -149,7 +157,15 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Footer
     'footer.datasource': 'Data Sources: World Bank Open Data v2 & WAQI / OpenAQ',
-    'footer.credit': 'Built by Antigravity AI Team — 2026',
+    'footer.credit': 'Built by NguyenVanLoi — 2026',
+    'footer.notesTitle': 'Notes & Data Sources',
+    'footer.noteWbTitle': 'Macro & Economy Data',
+    'footer.noteWbDesc': 'GDP, Population, Life Expectancy, and Trade indicators are directly fetched from World Bank Open Data API v2.',
+    'footer.noteAqiTitle': 'Air Quality Index (AQI)',
+    'footer.noteAqiDesc': 'Real-time AQI & PM2.5 readings are gathered from public WAQI / OpenAQ monitoring stations.',
+    'footer.noteMapTitle': 'Geographic Map',
+    'footer.noteMapDesc': 'Vietnam 63-province boundaries are visualized from open GeoJSON spatial datasets.',
+    'footer.disclaimer': 'Disclaimer: All dashboard metrics are automatically retrieved from open public APIs for research & community reference purposes.',
   },
 };
 
