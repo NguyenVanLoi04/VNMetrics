@@ -1,10 +1,22 @@
 'use client';
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { StatCard } from './StatCard';
-import { VietnamMap } from './VietnamMap';
 import { useLanguage } from '../../context/LanguageContext';
 import { Users, DollarSign, HeartPulse, TrendingUp } from 'lucide-react';
+
+const VietnamMap = dynamic(
+  () => import('./VietnamMap').then((mod) => mod.VietnamMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[450px] w-full rounded-[2rem] bg-slate-900/50 border border-slate-800 animate-pulse flex items-center justify-center text-slate-500">
+        Loading map...
+      </div>
+    ),
+  }
+);
 
 interface IOverviewProps {
   population?: string;

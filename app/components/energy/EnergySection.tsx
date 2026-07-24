@@ -3,6 +3,7 @@
 import React from 'react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend, LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { useLanguage } from '../../context/LanguageContext';
+import { ExportButton } from '../common/ExportButton';
 import { VIETNAM_ENERGY_MIX } from '../../lib/constants';
 import { IWorldBankDataPoint } from '../../lib/interface';
 
@@ -37,19 +38,29 @@ export const EnergySection: React.FC<IEnergySectionProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* National Energy Mix Donut Chart */}
         <div className="p-7 rounded-[2rem] theme-card border space-y-4">
-          <h3 className="text-base font-semibold tracking-tight">{t('chart.energyMix')}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold tracking-tight">{t('chart.energyMix')}</h3>
+            <ExportButton
+              data={VIETNAM_ENERGY_MIX}
+              filename="vnmetrics-energy-mix"
+              headers={{ source: 'Nguồn Điện', pct: 'Tỷ Trọng (%)' }}
+            />
+          </div>
           <div className="h-72 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={VIETNAM_ENERGY_MIX}
+                  data={VIETNAM_ENERGY_MIX.map((item) => ({
+                    ...item,
+                    sourceTranslated: t(`energy.source.${item.sourceKey}`),
+                  }))}
                   cx="50%"
                   cy="50%"
                   innerRadius={65}
                   outerRadius={95}
                   paddingAngle={6}
                   dataKey="pct"
-                  nameKey="source"
+                  nameKey="sourceTranslated"
                   cornerRadius={6}
                 >
                   {VIETNAM_ENERGY_MIX.map((entry, index) => (
@@ -65,7 +76,7 @@ export const EnergySection: React.FC<IEnergySectionProps> = ({
                     boxShadow: 'var(--card-shadow)',
                     backdropFilter: 'blur(12px)',
                   }}
-                  formatter={(val: any) => [`${val}%`, 'Tỷ trọng']}
+                  formatter={(val: any) => [`${val}%`, t('energy.tooltip.share')]}
                 />
                 <Legend iconType="circle" />
               </PieChart>
@@ -75,7 +86,14 @@ export const EnergySection: React.FC<IEnergySectionProps> = ({
 
         {/* Urbanization Trend Line Chart */}
         <div className="p-7 rounded-[2rem] theme-card border space-y-4">
-          <h3 className="text-base font-semibold tracking-tight">{t('chart.urbanization')}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold tracking-tight">{t('chart.urbanization')}</h3>
+            <ExportButton
+              data={urbanData.length ? urbanData : defaultUrbanData}
+              filename="vnmetrics-urbanization-trend"
+              headers={{ year: 'Năm', value: 'Tỷ Lệ Đô Thị Hóa (% Dân Số)' }}
+            />
+          </div>
           <div className="h-72 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={urbanData.length ? urbanData : defaultUrbanData}>
@@ -91,7 +109,7 @@ export const EnergySection: React.FC<IEnergySectionProps> = ({
                     boxShadow: 'var(--card-shadow)',
                     backdropFilter: 'blur(12px)',
                   }}
-                  formatter={(val: any) => [`${val}%`, 'Tỷ lệ Đô thị hóa']}
+                  formatter={(val: any) => [`${val}%`, t('energy.tooltip.urbanRate')]}
                 />
                 <Line type="monotone" dataKey="value" stroke="#fbbf24" strokeWidth={3} dot={{ r: 5, fill: '#fbbf24', strokeWidth: 2, stroke: 'var(--bg-card)' }} />
               </LineChart>

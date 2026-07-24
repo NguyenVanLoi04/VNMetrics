@@ -3,6 +3,7 @@
 import React from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, AreaChart, Area } from 'recharts';
 import { useLanguage } from '../../context/LanguageContext';
+import { ExportButton } from '../common/ExportButton';
 import { VIETNAM_AGRI_EXPORTS } from '../../lib/constants';
 import { IWorldBankDataPoint } from '../../lib/interface';
 import { Wheat, Award, Sprout, ShieldCheck } from 'lucide-react';
@@ -42,8 +43,8 @@ export const AgricultureSection: React.FC<IAgricultureSectionProps> = ({
             <Award className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs theme-text-muted font-medium">Hạt Điều & Hạt Tiêu</p>
-            <p className="text-sm font-bold text-amber-400">#1 Thế Giới</p>
+            <p className="text-xs theme-text-muted font-medium">{t('agri.badge.cashewPepper')}</p>
+            <p className="text-sm font-bold text-amber-400">{t('agri.badge.cashewPepperRank')}</p>
           </div>
         </div>
 
@@ -52,8 +53,8 @@ export const AgricultureSection: React.FC<IAgricultureSectionProps> = ({
             <Wheat className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs theme-text-muted font-medium">Cà Phê & Gạo</p>
-            <p className="text-sm font-bold text-emerald-400">#2 Thế Giới</p>
+            <p className="text-xs theme-text-muted font-medium">{t('agri.badge.coffeeRice')}</p>
+            <p className="text-sm font-bold text-emerald-400">{t('agri.badge.coffeeRiceRank')}</p>
           </div>
         </div>
 
@@ -62,8 +63,8 @@ export const AgricultureSection: React.FC<IAgricultureSectionProps> = ({
             <Sprout className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs theme-text-muted font-medium">Thủy Sản (Tôm, Cá)</p>
-            <p className="text-sm font-bold text-cyan-400">Top 3 Thế Giới</p>
+            <p className="text-xs theme-text-muted font-medium">{t('agri.badge.seafood')}</p>
+            <p className="text-sm font-bold text-cyan-400">{t('agri.badge.seafoodRank')}</p>
           </div>
         </div>
 
@@ -72,8 +73,8 @@ export const AgricultureSection: React.FC<IAgricultureSectionProps> = ({
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs theme-text-muted font-medium">Tổng Kim Ngạch</p>
-            <p className="text-sm font-bold text-lime-400">~$54 Tỷ USD</p>
+            <p className="text-xs theme-text-muted font-medium">{t('agri.badge.totalTurnover')}</p>
+            <p className="text-sm font-bold text-lime-400">{t('agri.badge.totalTurnoverVal')}</p>
           </div>
         </div>
       </div>
@@ -81,13 +82,27 @@ export const AgricultureSection: React.FC<IAgricultureSectionProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Key Produce Exports Bar Chart */}
         <div className="p-7 rounded-[2rem] theme-card border space-y-4">
-          <h3 className="text-base font-semibold tracking-tight">{t('chart.agriExports')}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold tracking-tight">{t('chart.agriExports')}</h3>
+            <ExportButton
+              data={VIETNAM_AGRI_EXPORTS}
+              filename="vnmetrics-agri-exports"
+              headers={{ product: 'Nông Sản', valueBillionUSD: 'Kim Ngạch (Tỷ USD)', rank: 'Thứ Hạng' }}
+            />
+          </div>
           <div className="h-80 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={VIETNAM_AGRI_EXPORTS} layout="vertical">
+              <BarChart
+                data={VIETNAM_AGRI_EXPORTS.map((item) => ({
+                  ...item,
+                  productTranslated: t(`agri.prod.${item.productKey || 'wood'}`),
+                  rankTranslated: t(`agri.rank.${item.rankKey || 'top5'}`),
+                }))}
+                layout="vertical"
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="currentColor" opacity={0.1} />
                 <XAxis type="number" stroke="#94a3b8" tick={{ fontSize: 12 }} />
-                <YAxis dataKey="product" type="category" stroke="#94a3b8" width={150} tick={{ fontSize: 11 }} />
+                <YAxis dataKey="productTranslated" type="category" stroke="#94a3b8" width={150} tick={{ fontSize: 11 }} />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: 'var(--bg-card)',
@@ -98,8 +113,8 @@ export const AgricultureSection: React.FC<IAgricultureSectionProps> = ({
                     backdropFilter: 'blur(12px)',
                   }}
                   formatter={(val: any, name: any, item: any) => [
-                    `$${val} Tỷ USD (${item.payload.rank})`,
-                    'Kim Ngạch',
+                    `$${val} ${t('economy.tooltip.billionUSD')} (${item.payload.rankTranslated})`,
+                    t('agri.tooltip.turnover'),
                   ]}
                 />
                 <Bar dataKey="valueBillionUSD" fill="#84cc16" radius={[0, 12, 12, 0]} />
@@ -110,7 +125,14 @@ export const AgricultureSection: React.FC<IAgricultureSectionProps> = ({
 
         {/* Agriculture Value Added % of GDP */}
         <div className="p-7 rounded-[2rem] theme-card border space-y-4">
-          <h3 className="text-base font-semibold tracking-tight">{t('chart.agriGdpTrend')}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold tracking-tight">{t('chart.agriGdpTrend')}</h3>
+            <ExportButton
+              data={agriGdpData.length ? agriGdpData : defaultAgriGdpData}
+              filename="vnmetrics-agri-gdp-share"
+              headers={{ year: 'Năm', value: 'Tỷ Trọng Nông Nghiệp (% GDP)' }}
+            />
+          </div>
           <div className="h-80 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={agriGdpData.length ? agriGdpData : defaultAgriGdpData}>
@@ -132,7 +154,7 @@ export const AgricultureSection: React.FC<IAgricultureSectionProps> = ({
                     boxShadow: 'var(--card-shadow)',
                     backdropFilter: 'blur(12px)',
                   }}
-                  formatter={(val: any) => [`${val}%`, 'Tỷ trọng trong GDP']}
+                  formatter={(val: any) => [`${val}%`, t('agri.tooltip.gdpPct')]}
                 />
                 <Area type="monotone" dataKey="value" stroke="#84cc16" strokeWidth={3} fillOpacity={1} fill="url(#agriGdpGrad)" />
               </AreaChart>

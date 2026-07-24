@@ -3,6 +3,7 @@
 import React from 'react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, LineChart, Line } from 'recharts';
 import { useLanguage } from '../../context/LanguageContext';
+import { ExportButton } from '../common/ExportButton';
 import { VIETNAM_TOP_EXPORTS } from '../../lib/constants';
 import { IWorldBankDataPoint } from '../../lib/interface';
 
@@ -37,13 +38,26 @@ export const ExportsSection: React.FC<IExportsSectionProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Top Export Commodities */}
         <div className="p-7 rounded-[2rem] theme-card border space-y-4">
-          <h3 className="text-base font-semibold tracking-tight">{t('chart.topExports')}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold tracking-tight">{t('chart.topExports')}</h3>
+            <ExportButton
+              data={VIETNAM_TOP_EXPORTS}
+              filename="vnmetrics-top-export-sectors"
+              headers={{ category: 'Ngành Hàng', valueBillionUSD: 'Kim Ngạch (Tỷ USD)', sharePct: 'Tỷ Trọng (%)' }}
+            />
+          </div>
           <div className="h-72 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={VIETNAM_TOP_EXPORTS} layout="vertical">
+              <BarChart
+                data={VIETNAM_TOP_EXPORTS.map((item) => ({
+                  ...item,
+                  categoryTranslated: t(`exports.cat.${item.categoryKey}`),
+                }))}
+                layout="vertical"
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="currentColor" opacity={0.1} />
                 <XAxis type="number" stroke="#94a3b8" tick={{ fontSize: 12 }} />
-                <YAxis dataKey="category" type="category" stroke="#94a3b8" width={140} tick={{ fontSize: 11 }} />
+                <YAxis dataKey="categoryTranslated" type="category" stroke="#94a3b8" width={140} tick={{ fontSize: 11 }} />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: 'var(--bg-card)',
@@ -53,7 +67,7 @@ export const ExportsSection: React.FC<IExportsSectionProps> = ({
                     boxShadow: 'var(--card-shadow)',
                     backdropFilter: 'blur(12px)',
                   }}
-                  formatter={(val: any) => [`$${val} Tỷ USD`, 'Kim Ngạch']}
+                  formatter={(val: any) => [`$${val} ${t('economy.tooltip.billionUSD')}`, t('exports.tooltip.turnover')]}
                 />
                 <Bar dataKey="valueBillionUSD" fill="#2dd4bf" radius={[0, 12, 12, 0]} />
               </BarChart>
@@ -63,7 +77,14 @@ export const ExportsSection: React.FC<IExportsSectionProps> = ({
 
         {/* Exports % of GDP */}
         <div className="p-7 rounded-[2rem] theme-card border space-y-4">
-          <h3 className="text-base font-semibold tracking-tight">{t('chart.exportsVsImports')}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold tracking-tight">{t('chart.exportsVsImports')}</h3>
+            <ExportButton
+              data={exportsPctData.length ? exportsPctData : defaultExportsPctData}
+              filename="vnmetrics-exports-pct-gdp"
+              headers={{ year: 'Năm', value: 'Xuất Khẩu (% GDP)' }}
+            />
+          </div>
           <div className="h-72 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={exportsPctData.length ? exportsPctData : defaultExportsPctData}>
@@ -79,7 +100,7 @@ export const ExportsSection: React.FC<IExportsSectionProps> = ({
                     boxShadow: 'var(--card-shadow)',
                     backdropFilter: 'blur(12px)',
                   }}
-                  formatter={(val: any) => [`${val}%`, 'Xuất Khẩu / GDP']}
+                  formatter={(val: any) => [`${val}%`, t('exports.tooltip.exportsVsGdp')]}
                 />
                 <Line type="monotone" dataKey="value" stroke="#38bdf8" strokeWidth={3} dot={{ r: 5, fill: '#38bdf8', strokeWidth: 2, stroke: 'var(--bg-card)' }} />
               </LineChart>

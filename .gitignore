@@ -19,6 +19,7 @@
 
 # production
 /build
+open-data-vietnam/
 
 # misc
 .DS_Store

@@ -2,8 +2,10 @@
 
 import React, { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
+import { useLanguage } from '../../context/LanguageContext';
 
 export const VietnamMap: React.FC = () => {
+  const { t } = useLanguage();
   const [mounted, setMounted] = React.useState(false);
 
   useEffect(() => {
@@ -13,7 +15,7 @@ export const VietnamMap: React.FC = () => {
   if (!mounted) {
     return (
       <div className="h-[450px] w-full rounded-2xl bg-slate-900/50 border border-slate-800 animate-pulse flex items-center justify-center text-slate-500">
-        Đang tải bản đồ tương tác...
+        {t('map.loading')}
       </div>
     );
   }
@@ -32,11 +34,11 @@ export const VietnamMap: React.FC = () => {
   });
 
   const cities = [
-    { name: 'Hà Nội', lat: 21.0285, lng: 105.8542, pop: '8.4M', gdp: 'Thủ Đô' },
-    { name: 'TP. Hồ Chí Minh', lat: 10.8231, lng: 106.6297, pop: '9.3M', gdp: 'Trung Tâm Kinh Tế' },
-    { name: 'Đà Nẵng', lat: 16.0544, lng: 108.2022, pop: '1.2M', gdp: 'Đô Thị Biển' },
-    { name: 'Hải Phòng', lat: 20.8449, lng: 106.6881, pop: '2.0M', gdp: 'Cảng Biển Lớn' },
-    { name: 'Cần Thơ', lat: 10.0452, lng: 105.7469, pop: '1.3M', gdp: 'Mền Tây Nam Bộ' },
+    { name: 'Hà Nội', lat: 21.0285, lng: 105.8542, pop: '8.4M', gdpKey: 'map.role.hanoi' },
+    { name: 'TP. Hồ Chí Minh', lat: 10.8231, lng: 106.6297, pop: '9.3M', gdpKey: 'map.role.hcm' },
+    { name: 'Đà Nẵng', lat: 16.0544, lng: 108.2022, pop: '1.2M', gdpKey: 'map.role.danang' },
+    { name: 'Hải Phòng', lat: 20.8449, lng: 106.6881, pop: '2.0M', gdpKey: 'map.role.haiphong' },
+    { name: 'Cần Thơ', lat: 10.0452, lng: 105.7469, pop: '1.3M', gdpKey: 'map.role.cantho' },
   ];
 
   return (
@@ -56,8 +58,8 @@ export const VietnamMap: React.FC = () => {
             <Popup className="custom-popup">
               <div className="p-1.5 font-sans text-slate-900">
                 <h4 className="font-bold text-base">{city.name}</h4>
-                <p className="text-xs text-slate-600">Dân số: {city.pop}</p>
-                <p className="text-xs font-semibold text-emerald-600">{city.gdp}</p>
+                <p className="text-xs text-slate-600">{t('map.popLabel')}: {city.pop}</p>
+                <p className="text-xs font-semibold text-emerald-600">{t(city.gdpKey)}</p>
               </div>
             </Popup>
           </Marker>

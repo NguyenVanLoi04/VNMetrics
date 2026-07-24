@@ -3,6 +3,7 @@
 import React from 'react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { useLanguage } from '../../context/LanguageContext';
+import { ExportButton } from '../common/ExportButton';
 import { IWorldBankDataPoint } from '../../lib/interface';
 
 interface IPopulationSectionProps {
@@ -47,7 +48,14 @@ export const PopulationSection: React.FC<IPopulationSectionProps> = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="p-7 rounded-[2rem] theme-card border space-y-4">
-          <h3 className="text-base font-semibold tracking-tight">{t('chart.popGrowth')}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold tracking-tight">{t('chart.popGrowth')}</h3>
+            <ExportButton
+              data={popData.length ? popData : defaultPopData}
+              filename="vnmetrics-population-trend"
+              headers={{ year: 'Năm', value: 'Dân Số (Triệu Người)' }}
+            />
+          </div>
           <div className="h-72 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={popData.length ? popData : defaultPopData}>
@@ -63,7 +71,7 @@ export const PopulationSection: React.FC<IPopulationSectionProps> = ({
                     boxShadow: 'var(--card-shadow)',
                     backdropFilter: 'blur(12px)',
                   }}
-                  formatter={(val: any) => [`${val} Triệu Người`, 'Dân Số']}
+                  formatter={(val: any) => [`${val} ${t('pop.unit.million')}`, t('pop.tooltip.population')]}
                 />
                 <Line type="monotone" dataKey="value" stroke="#38bdf8" strokeWidth={3} dot={{ r: 5, fill: '#38bdf8', strokeWidth: 2, stroke: 'var(--bg-card)' }} />
               </LineChart>
@@ -72,7 +80,14 @@ export const PopulationSection: React.FC<IPopulationSectionProps> = ({
         </div>
 
         <div className="p-7 rounded-[2rem] theme-card border space-y-4">
-          <h3 className="text-base font-semibold tracking-tight">{t('chart.internetUsers')}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold tracking-tight">{t('chart.internetUsers')}</h3>
+            <ExportButton
+              data={internetData.length ? internetData : defaultInternetData}
+              filename="vnmetrics-internet-users-trend"
+              headers={{ year: 'Năm', value: 'Người Dùng Internet (% Dân Số)' }}
+            />
+          </div>
           <div className="h-72 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={internetData.length ? internetData : defaultInternetData}>
@@ -88,7 +103,7 @@ export const PopulationSection: React.FC<IPopulationSectionProps> = ({
                     boxShadow: 'var(--card-shadow)',
                     backdropFilter: 'blur(12px)',
                   }}
-                  formatter={(val: any) => [`${val}%`, 'Tỷ lệ người dùng Internet']}
+                  formatter={(val: any) => [`${val}%`, t('pop.tooltip.internetRate')]}
                 />
                 <Line type="monotone" dataKey="value" stroke="#c084fc" strokeWidth={3} dot={{ r: 5, fill: '#c084fc', strokeWidth: 2, stroke: 'var(--bg-card)' }} />
               </LineChart>

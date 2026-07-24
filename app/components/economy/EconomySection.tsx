@@ -13,6 +13,7 @@ import {
   CartesianGrid,
 } from 'recharts';
 import { useLanguage } from '../../context/LanguageContext';
+import { ExportButton } from '../common/ExportButton';
 import { IWorldBankDataPoint, IMultiCountryDataPoint } from '../../lib/interface';
 
 interface IEconomySectionProps {
@@ -58,7 +59,14 @@ export const EconomySection: React.FC<IEconomySectionProps> = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="p-7 rounded-[2rem] theme-card border space-y-4">
-          <h3 className="text-base font-semibold tracking-tight">{t('chart.gdpTrend')}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold tracking-tight">{t('chart.gdpTrend')}</h3>
+            <ExportButton
+              data={gdpData.length ? gdpData : defaultGdpData}
+              filename="vnmetrics-gdp-trend"
+              headers={{ year: 'Năm', value: 'GDP (Tỷ USD)' }}
+            />
+          </div>
           <div className="h-72 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={gdpData.length ? gdpData : defaultGdpData}>
@@ -80,7 +88,7 @@ export const EconomySection: React.FC<IEconomySectionProps> = ({
                     boxShadow: 'var(--card-shadow)',
                     backdropFilter: 'blur(12px)',
                   }}
-                  formatter={(val: any) => [`$${val} Tỷ USD`, 'GDP']}
+                  formatter={(val: any) => [`$${val} ${t('economy.tooltip.billionUSD')}`, 'GDP']}
                 />
                 <Area type="monotone" dataKey="value" stroke="#34d399" strokeWidth={3} fillOpacity={1} fill="url(#gdpGrad)" />
               </AreaChart>
@@ -89,7 +97,14 @@ export const EconomySection: React.FC<IEconomySectionProps> = ({
         </div>
 
         <div className="p-7 rounded-[2rem] theme-card border space-y-4">
-          <h3 className="text-base font-semibold tracking-tight">{t('chart.aseanGdp')}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-semibold tracking-tight">{t('chart.aseanGdp')}</h3>
+            <ExportButton
+              data={aseanGdpData.length ? aseanGdpData : defaultAseanData}
+              filename="vnmetrics-asean-gdp-comparison"
+              headers={{ country: 'Quốc Gia', countryCode: 'Mã', value: 'GDP Đầu Người (USD)', year: 'Năm' }}
+            />
+          </div>
           <div className="h-72 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={aseanGdpData.length ? aseanGdpData : defaultAseanData} layout="vertical">
@@ -105,7 +120,7 @@ export const EconomySection: React.FC<IEconomySectionProps> = ({
                     boxShadow: 'var(--card-shadow)',
                     backdropFilter: 'blur(12px)',
                   }}
-                  formatter={(val: any) => [`$${val.toLocaleString()} USD`, 'GDP/Đầu Người']}
+                  formatter={(val: any) => [`$${val.toLocaleString()} USD`, t('economy.tooltip.gdpPerCapita')]}
                 />
                 <Bar dataKey="value" fill="#38bdf8" radius={[0, 12, 12, 0]} />
               </BarChart>

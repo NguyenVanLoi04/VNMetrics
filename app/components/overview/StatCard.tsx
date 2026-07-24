@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface IStatCardProps {
   title: string;
@@ -21,6 +22,8 @@ export const StatCard: React.FC<IStatCardProps> = ({
   icon,
   gradient = 'from-emerald-500/15 to-teal-500/5',
 }) => {
+  const { t } = useLanguage();
+
   return (
     <div className="relative overflow-hidden rounded-[2rem] theme-card p-6 border transition-all duration-500 group stat-card-entry">
       <div className={`absolute -right-8 -bottom-8 w-36 h-36 rounded-full bg-gradient-to-br ${gradient} blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -44,7 +47,7 @@ export const StatCard: React.FC<IStatCardProps> = ({
           <span className={`px-2.5 py-0.5 rounded-full backdrop-blur-md ${isPositive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}`}>
             {isPositive ? '↑' : '↓'} {change}
           </span>
-          <span className="theme-text-muted text-[11px]">so với kỳ trước</span>
+          <span className="theme-text-muted text-[11px]">{t('stat.vsPrevious')}</span>
         </div>
       )}
     </div>
